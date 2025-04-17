@@ -122,12 +122,57 @@ class Program
 
     static void ShiftListElements()
     {
-        Console.WriteLine("Shift List Elements functionality is not implemented yet.");
+        // Input list of integers
+        List<int> numbers = new List<int> { 1, 2, 3, 4, 5 };
+
+        // Ask the user for the number of positions to shift
+        Console.Write("Enter the number of positions to shift: ");
+        if (!int.TryParse(Console.ReadLine(), out int shift))
+        {
+            Console.WriteLine("Invalid input. Please enter a valid integer.");
+            return;
+        }
+
+        // Normalize the shift value to handle cases where shift > list size or negative shifts
+        shift = shift % numbers.Count;
+        if (shift < 0)
+        {
+            shift += numbers.Count;
+        }
+
+        // Perform the shift using list slicing
+        List<int> shiftedList = numbers.Skip(numbers.Count - shift).ToList();
+        shiftedList.AddRange(numbers.Take(numbers.Count - shift));
+
+        // Output the shifted list
+        Console.WriteLine("Shifted List:");
+        Console.WriteLine(string.Join(", ", shiftedList));
     }
 
     static void UniqueWordsExtractor()
     {
-        Console.WriteLine("Unique Words Extractor functionality is not implemented yet.");
+        // Input text
+        Console.WriteLine("Enter a block of text:");
+        string? inputText = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(inputText))
+        {
+            Console.WriteLine("No text provided. Please try again.");
+            return;
+        }
+
+        // Split the text into words and normalize them (case-insensitive)
+        string[] words = inputText.Split(new[] { ' ', '.', ',', ';', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
+        HashSet<string> uniqueWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (string word in words)
+        {
+            uniqueWords.Add(word);
+        }
+
+        // Output the unique words
+        Console.WriteLine("Unique Words:");
+        Console.WriteLine(string.Join(", ", uniqueWords));
     }
 }
 
