@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using static System.Net.Mime.MediaTypeNames;
+
 class Program
 {
     static void Main()
@@ -127,54 +127,61 @@ class Program
 
         // Ask the user for the number of positions to shift
         Console.Write("Enter the number of positions to shift: ");
-        if (!int.TryParse(Console.ReadLine(), out int shift))
+        if (!int.TryParse(Console.ReadLine(), out int shift)) // Validate user input
         {
             Console.WriteLine("Invalid input. Please enter a valid integer.");
-            return;
+            return; // Exit the method if input is invalid
         }
 
         // Normalize the shift value to handle cases where shift > list size or negative shifts
-        shift = shift % numbers.Count;
-        if (shift < 0)
+        shift = shift % numbers.Count; // Ensure the shift value is within the bounds of the list size
+        if (shift < 0) // Handle negative shifts by converting them to equivalent positive shifts
         {
             shift += numbers.Count;
         }
 
         // Perform the shift using list slicing
+        // Take the last 'shift' elements and move them to the front
         List<int> shiftedList = numbers.Skip(numbers.Count - shift).ToList();
+        // Add the remaining elements from the start of the list
         shiftedList.AddRange(numbers.Take(numbers.Count - shift));
 
         // Output the shifted list
         Console.WriteLine("Shifted List:");
-        Console.WriteLine(string.Join(", ", shiftedList));
+        Console.WriteLine(string.Join(", ", shiftedList)); // Display the shifted list as a comma-separated string
     }
 
     static void UniqueWordsExtractor()
     {
-        // Input text
+        // Prompt the user to enter a block of text
         Console.WriteLine("Enter a block of text:");
         string? inputText = Console.ReadLine();
 
+        // Check if the input text is null, empty, or consists only of whitespace
         if (string.IsNullOrWhiteSpace(inputText))
         {
             Console.WriteLine("No text provided. Please try again.");
-            return;
+            return; // Exit the method if no valid input is provided
         }
 
-        // Split the text into words and normalize them (case-insensitive)
+        // Split the input text into words using common delimiters and remove empty entries
         string[] words = inputText.Split(new[] { ' ', '.', ',', ';', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Use a HashSet to store unique words, ignoring case differences
         HashSet<string> uniqueWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
+        // Iterate through the words and add each one to the HashSet
         foreach (string word in words)
         {
-            uniqueWords.Add(word);
+            uniqueWords.Add(word); // HashSet automatically handles duplicates
         }
 
-        // Output the unique words
+        // Output the unique words to the console
         Console.WriteLine("Unique Words:");
-        Console.WriteLine(string.Join(", ", uniqueWords));
+        Console.WriteLine(string.Join(", ", uniqueWords)); // Join and display the unique words as a comma-separated string
     }
 }
+
 
 
  
